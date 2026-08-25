@@ -1,7 +1,12 @@
 # omni_docking
 
-Charging-dock controller for the omni inspection robot (Phase 3). Serves
+Robot-side charging-dock controller for the omni inspection robot. Serves
 the V1 docking contract from `omni_robot_interfaces`:
+
+This repository was history-preservingly extracted from `rosdeck/robot`.
+It does not depend on the Rosdeck App. See
+[the complete interface contract](docs/INTERFACES.md) and
+[the engineering backlog](docs/TODO.md).
 
 | Interface | Name |
 |---|---|
@@ -13,7 +18,7 @@ the V1 docking contract from `omni_robot_interfaces`:
 | Topic out | `/omni/cmd_vel/docking` (`geometry_msgs/Twist`, 20 Hz while an op is active) |
 | Topic in | `/omni/robot_state`, `<pose_topic>` (`/state_estimation_global`), `/battery_state`, `/rosdeck/control_status` |
 
-The mission manager's `ReturnToDock` chain (Phase 3 follow-up) reuses
+The mission manager's `ReturnToDock` chain reuses
 this package: the global approach leg runs under the MISSION lease
 (FollowRoute on the planner), the final-approach leg hands off to the
 `Dock` action here, which self-owns the DOCKING lease.
@@ -28,7 +33,7 @@ gateway's Phase-0 **string protocol** on
 `/rosdeck/control_command` / `/rosdeck/control_status`
 (`"acquire|heartbeat|release:<client_id>"`, status
 `"acquired:<client_id>"`) — see
-`rosdeck_robot_bridge/doc/product_bringup_and_docking.md` §4.
+the compatibility contract documented in `docs/INTERFACES.md`.
 
 > **Note:** the typed `ControlAuthority` service declared in
 > `omni_robot_interfaces` currently has **no provider** in this
@@ -135,6 +140,15 @@ The pure modules (`authority`, `dock_config`, `charge_monitor`,
 python3 -m unittest discover -s robot/omni_docking/test -v
 ```
 
-`docking_node.py` is rclpy-only wiring (compile-checked); the
-node-level behavior (action wiring, QoS, timers) needs a ROS
-environment.
+`docking_node.py` is rclpy-only wiring (compile-checked); the node-level
+behavior (action wiring, QoS, timers) needs a ROS environment.
+
+## Repository policy
+
+- All custom ROS contracts come from `omni_robot_interfaces`; this repository
+  does not own or copy interface definitions.
+- Dock geometry and motion are expressed in the configured map/base frames;
+  sensor extrinsics remain the responsibility of `omni_tf_manager`.
+- The extracted package metadata says `Apache-2.0`, while the former monorepo
+  root carried `GPL-3.0`. The owner must resolve that provenance and add an
+  authoritative root `LICENSE` before any external binary/source release.

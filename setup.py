@@ -18,8 +18,8 @@ setup(
     ],
     install_requires=["setuptools"],
     zip_safe=True,
-    maintainer="Rosdeck Maintainers",
-    maintainer_email="maintainer@example.com",
+    maintainer="YanYaoyuan",
+    maintainer_email="38186557+YanYaoyuan@users.noreply.github.com",
     description="Charging-dock controller: Dock/Undock actions, DOCKING "
                 "lease, /omni/cmd_vel/docking (V1).",
     license="Apache-2.0",

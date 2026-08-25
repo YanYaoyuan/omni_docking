@@ -13,7 +13,7 @@
     active op; the lease is always released and velocity zeroed on
     terminal.
   </description>
-  <maintainer email="maintainer@example.com">Rosdeck Maintainers</maintainer>
+  <maintainer email="38186557+YanYaoyuan@users.noreply.github.com">YanYaoyuan</maintainer>
   <license>Apache-2.0</license>
 
   <depend>rclpy</depend>
